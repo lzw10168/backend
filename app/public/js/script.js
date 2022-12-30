@@ -30,7 +30,7 @@ const textarr = [
   '一起进鬼屋',
   '一起买一张彩票',
   '比赛啃骨头',
-  '教我一项你的特长',
+  '教我一项我的特长',
   '整晚不睡觉打电话唠嗑',
   '一起去放生',
   '一起在河里放纸船',
@@ -46,7 +46,7 @@ const textarr = [
   '念故事哄我入睡',
   '一起沿铁轨走',
   '在树上刻下我们的约定',
-  '看你打一场篮球比赛',
+  '看我打一场篮球比赛',
   '一起露营一次',
   '为你做一次早餐',
   '为你做一个蛋糕',
@@ -54,24 +54,24 @@ const textarr = [
   '一起吃好吃的吃到吐',
   '一起去看海',
   '唱歌给我听',
-  '一起去你的小学，初中，高中',
   '一起去我的小学，初中，高中',
+  '一起去你的小学，初中，高中',
   '比赛吃西瓜，用勺吃的那种',
   '一起打雪仗',
   '一起去当义工一天',
-  '看你打台球',
+  '看我打台球',
   '一起撮合成一对情侣',
   '背靠背听歌',
   '一起打扑克',
   '扶老人过马路',
   '看冰灯',
-  '靠你肩膀睡觉',
+  '靠我肩膀睡觉',
   '比赛吹气球',
   '一起包一次饺子',
   '一起坐一辆从没做过的车，在不认识的地方下车到处逛',
   '一起去一次敬老院',
   '一起去看海豚',
-  '把你打扮成女生一次',
+  '把我打扮成女生一次',
   '和你玩捉迷藏',
   '以喝交杯酒的方式喝东西',
   '去拍一次婚纱照',
@@ -83,7 +83,7 @@ const textarr = [
   '一起去吃自助餐，必须扶墙进去扶墙出来',
   '去所在城市的美丽景点玩',
   '用泥巴做两个小人，我们的形象',
-  '为你刮胡子',
+  '为我刮胡子',
   '在冬天共用一副手套',
   '生病的时候要陪着我',
   '一起去捡落叶',
@@ -92,21 +92,25 @@ const textarr = [
   '一起去孤儿院一次',
   '比赛磕瓜子',
   '假装当陌生人一天',
-  '为你织一件东西',
-  '教我玩一个你会的游戏',
+  '为我织一件东西',
+  '教我玩一个我会的游戏',
   '专心为我做一件事，哪怕很不起眼',
-  '为我做一件你很不喜欢的事',
+  '为我做一件我很不喜欢的事',
   '在公共场合下一起喝娃哈哈',
-  '在你的父母面前保护我一次',
+  '在我的父母面前保护你一次',
   '为我挡酒',
   '在朋友面前大方的介绍我',
-  '奖励臭老婆今天8点洗澡, 并和老公贴贴一次.',
-  '奖励臭老婆不洗澡, 但是和老公贴贴一次.',
+  '奖励臭老婆今天8点洗澡.',
+  '奖励臭老婆不洗澡.',
   '免洗碗一次',
   '免洗衣一次',
-  '给老婆吹头发一次',
+  // '给老婆吹头发一次',
   '白头偕老❤'
 ];
+
+for (let i = 0; i < 100; i++) {
+  textarr.push('谢谢惠顾!!!');
+}
 
 function randomOne(arr = textarr) {
   return arr[Math.floor(Math.random() * arr.length)];
@@ -129,20 +133,24 @@ function app() {
         0.1,
         1000
       );
-      renderer = new THREE.WebGLRenderer();
-      renderer.setClearColor(new THREE.Color(0xf98686));
+      renderer = new THREE.WebGLRenderer({
+        alpha: true
+      });
+      renderer.setClearColor(0xf98686, 0);
       renderer.setSize(window.innerWidth, window.innerHeight);
       renderer.shadowMap.enabled = true;
 
       // present
-      present = new Present(12, 7);
+      present = new Present(10, 7);
       scene.add(present.mesh);
 
       // ambient light
       let ambientLight = new THREE.AmbientLight(0xffffff);
       ambientLight.name = 'Ambient Light';
       scene.add(ambientLight);
-
+      const light = new THREE.PointLight(0xffffff);
+      light.position.set(50, 50, 50);
+      scene.add(light);
       // directional light
       let directionLight = new THREE.DirectionalLight(0xffffff, 0.7);
       directionLight.name = 'Directional Light';
@@ -204,32 +212,44 @@ class Present {
     this.openSpeed = 4;
     this.openTime = 0;
     this.timeToOpen = 320;
-    this.opacity = 1;
+    this.opacity = 0.7;
     this.opening = false;
     this.opened = false;
     this.wireframe = false;
     this.pieces = [];
-
+    const textureLoader = new THREE.TextureLoader();
+    const doorColorTexture = textureLoader.load('../public/img/boxcolor.jpg');
+    const lineColorTexture = textureLoader.load('../public/img/linecolor.jpg');
+    const blowColorTexture = textureLoader.load('../public/img/blowcolor.jpg');
     this.materials = [
       // wrapping
-      new THREE.MeshStandardMaterial({
-        color: 0x123a99,
+      new THREE.MeshPhongMaterial({
+        color: '#ff3821',
         side: THREE.DoubleSide,
         transparent: true,
-        wireframe: this.wireframe
+        wireframe: this.wireframe,
+        specular: '#fff', //高光部分的颜色
+        shininess: 20, //高光部分的亮度，默认30
+        map: doorColorTexture
       }),
       // ribbon
-      new THREE.MeshStandardMaterial({
-        color: 0xff1c54,
+      new THREE.MeshPhongMaterial({
+        color: '#a6a3ac',
         side: THREE.DoubleSide,
         transparent: true,
-        wireframe: this.wireframe
+        wireframe: this.wireframe,
+        specular: '#fff', //高光部分的颜色
+        shininess: 50, //高光部分的亮度，默认30,
+        map: lineColorTexture
       }),
       // bow
-      new THREE.MeshStandardMaterial({
-        color: 0xff1c54,
+      new THREE.MeshPhongMaterial({
+        color: '#f98686',
         transparent: true,
-        wireframe: this.wireframe
+        wireframe: this.wireframe,
+        specular: '#fff', //高光部分的颜色
+        shininess: 20, //高光部分的亮度，默认30
+        map: blowColorTexture
       })
     ];
     this.mesh = new THREE.Object3D();
@@ -341,8 +361,9 @@ class Present {
     this.bow.yRotateDir = getTails() ? -1 : 1;
     this.bow.zRotateDir = getTails() ? -1 : 1;
 
-    this.bow.scale.y = 0.5;
+    this.bow.scale.y = 0.6;
     this.mesh.add(this.bow);
+    this.mesh.position.y = -5;
   }
   open() {
     if (!this.opening && !this.opened) this.opening = true;
