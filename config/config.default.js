@@ -1,7 +1,7 @@
 /* eslint valid-jsdoc: "off" */
 
 'use strict';
-
+const path = require('path');
 /**
  * @param {Egg.EggAppInfo} appInfo app info
  */
@@ -50,7 +50,15 @@ module.exports = appInfo => {
     // myAppName: 'egg',
     uploadDir: 'app/public/upload'
   };
-
+  config.static = {
+    // 静态化访问前缀,如：`http://127.0.0.1:7001/static/images/logo.png`
+    prefix: '/public',
+    dir: path.join(appInfo.baseDir, 'app/public'), // `String` or `Array:[dir1, dir2, ...]` 静态化目录,可以设置多个静态化目录
+    dynamic: true, // 如果当前访问的静态资源没有缓存，则缓存静态文件，和`preload`配合使用；
+    preload: false,
+    maxAge: 31536000, // in prod env, 0 in other envs
+    buffer: true // in prod env, false in other envs
+  };
   exports.mysql = {
     // 单数据库信息配置
     client: {
@@ -74,7 +82,7 @@ module.exports = appInfo => {
   config.cluster = {
     listen: {
       path: '',
-      port: 7009,
+      port: 7008,
       hostname: '0.0.0.0'
     }
   };
