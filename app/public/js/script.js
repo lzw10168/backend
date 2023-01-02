@@ -104,13 +104,13 @@ const textarr = [
   '奖励臭老婆不洗澡.',
   '免洗碗一次',
   '免洗衣一次',
-  // '给老婆吹头发一次',
+  '给老婆吹头发一次',
   '白头偕老❤'
 ];
 
-for (let i = 0; i < 100; i++) {
-  textarr.push('谢谢惠顾!!!');
-}
+// for (let i = 0; i < 100; i++) {
+//   textarr.push('谢谢惠顾!!!');
+// }
 
 function randomOne(arr = textarr) {
   return arr[Math.floor(Math.random() * arr.length)];

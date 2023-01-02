@@ -29,5 +29,9 @@ module.exports = app => {
   router.post('/api/summary/upload_excel', controller.summary.uploadExcel); // 上传excel
   router.get('/api/summary/get_detail', controller.summary.detail); // 获取excel
 
+  // 搞怪小程序转发
+  router.post('/api/whimsy/result', controller.mini.whimsyResult)
+
+
   router.post('/api/user/verify', controller.user.verify); // 验证token
 };

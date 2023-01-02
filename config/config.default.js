@@ -59,6 +59,26 @@ module.exports = appInfo => {
     maxAge: 31536000, // in prod env, 0 in other envs
     buffer: true // in prod env, false in other envs
   };
+  //  线上数据库配置
+  const onlineMysql = {
+    // 用户名
+    user: 'base',
+    // 密码
+    password: 'fXYmKdJNs3jA574m',
+    // 数据库名
+    database: 'base'
+  }
+  // 本地数据库配置
+  const localMysql = {
+    user: 'root',
+    // 密码
+    password: '962464lzw',
+    // 数据库名
+    database: 'jue-cost',
+  }
+  const env = process.env.NODE_ENV
+
+  const mysql = env === 'development' ? localMysql : onlineMysql
   exports.mysql = {
     // 单数据库信息配置
     client: {
@@ -66,12 +86,7 @@ module.exports = appInfo => {
       host: 'localhost',
       // 端口号
       port: '',
-      // 用户名
-      user: 'root',
-      // 密码
-      password: '962464lzw',
-      // 数据库名
-      database: 'jue-cost'
+      ...mysql
     },
     // 是否加载到 app 上，默认开启
     app: true,
