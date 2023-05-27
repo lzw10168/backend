@@ -17,7 +17,6 @@ class UserController extends Controller {
       }
       return
     }
-
     // 验证数据库内是否已经有该账户名
     const userInfo = await ctx.service.user.getUserByName(username)
 
@@ -33,8 +32,7 @@ class UserController extends Controller {
     const result = await ctx.service.user.register({
       username,
       password,
-      signature: '世界和平。',
-      avatar: defaultAvatar
+      remark: '',
     });
 
     if (result) {
@@ -83,7 +81,7 @@ class UserController extends Controller {
       username: userInfo.username,
       exp: Math.floor(Date.now() / 1000) + (24 * 60 * 60) // token 有效期为 24 小时
     }, app.config.jwt.secret);
-    
+
     ctx.body = {
       code: 200,
       message: '登录成功',
@@ -104,13 +102,12 @@ class UserController extends Controller {
       data: {
         id: userInfo.id,
         username: userInfo.username,
-        signature: userInfo.signature || '',
-        avatar: userInfo.avatar || defaultAvatar
+        remark: userInfo.remark || '',
       }
     }
   }
 
-  async editUserInfo () {
+  async editUserInfo() {
     const { ctx, app } = this;
     const { signature = '', avatar = '' } = ctx.request.body
 
@@ -139,11 +136,11 @@ class UserController extends Controller {
         }
       }
     } catch (error) {
-      
+
     }
   }
 
-  async modifyPass () {
+  async modifyPass() {
     const { ctx, app } = this;
     const { old_pass = '', new_pass = '', new_pass2 = '' } = ctx.request.body
 
@@ -152,10 +149,10 @@ class UserController extends Controller {
       const token = ctx.request.header.authorization;
       const decode = await app.jwt.verify(token, app.config.jwt.secret);
       if (!decode) return
-      if (decode.username == 'admin') {
+      if (decode.super == 1) {
         ctx.body = {
           code: 400,
-          msg: '管理员账户，不允许修改密码！',
+          msg: '超级管理员账户，不允许修改密码！',
           data: null
         }
         return
@@ -175,7 +172,7 @@ class UserController extends Controller {
       if (new_pass != new_pass2) {
         ctx.body = {
           code: 400,
-          msg: '新密码不一致',
+          msg: '新密码需要不一致',
           data: null
         }
         return

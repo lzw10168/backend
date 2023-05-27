@@ -77,8 +77,15 @@ module.exports = appInfo => {
     database: 'jue-cost',
   }
   const env = process.env.NODE_ENV
+  console.log('env: ', env);
 
   const mysql = env === 'development' ? localMysql : onlineMysql
+  config.sequelize = {
+    dialect: 'mysql', // 数据的类型
+    host: 'localhost',
+    port: 3306, // 数据库端口
+    ...mysql
+  }
   exports.mysql = {
     // 单数据库信息配置
     client: {
