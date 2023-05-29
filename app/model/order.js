@@ -75,6 +75,8 @@ module.exports = app => {
     },
   }, {
     timestamps: true,
+    createdAt: 'created_at', // 自定义创建时间字段名
+      updatedAt: 'updated_at', // 自定义更新时间字段名
     underscored: true,
     freezeTableName: true,
     tableName: 'orders',

@@ -1,6 +1,6 @@
 // app/controller/order.js
 const Controller = require('egg').Controller;
-const uuid = require('uuid/v4');
+const uuid = require('uuid');
 class OrderController extends Controller {
   async index() {
     const { ctx } = this;

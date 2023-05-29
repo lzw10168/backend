@@ -7,20 +7,21 @@ module.exports = (options) => {
     if(token != 'null' && token) {
       try {
         decode = ctx.app.jwt.verify(token, options.secret); // 验证token
+        console.log('decode: ', decode);
         await next();
       } catch (error) {
         console.log('error', error)
         ctx.status = 200;
         ctx.body = {
           msg: 'token已过期，请重新登录',
-          code: 401,
+          code: 402,
         }
         return;
       }
     } else {
       ctx.status = 200;
       ctx.body = {
-        code: 401,
+        code: 402,
         msg: 'token不存在',
       };
       return;

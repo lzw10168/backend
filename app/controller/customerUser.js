@@ -2,7 +2,7 @@
 'use strict';
 // 其中，index、new、create和show对应HTTP GET请求，edit、update和destroy对应HTTP PUT、PATCH和DELETE请求。
 const Controller = require('egg').Controller;
-const uuid = require('uuid/v4');
+const uuid = require('uuid');
 class CustomerUserController extends Controller {
   async index() {
     const { ctx } = this;

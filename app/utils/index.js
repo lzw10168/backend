@@ -1,15 +1,16 @@
 function genErrorBody(msg) {
+
   return {
     code: 0,
     data: {},
-    msg,
+    msg: msg,
   };
 }
 
 function genSuccessBody(data) {
   return {
     code: 1,
-    msg: 'success',
+    msg: '操作成功',
     data,
   };
 }

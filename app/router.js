@@ -32,22 +32,22 @@ module.exports = app => {
   router.post('/driver_user/delete', controller.driverUser.destroy);
 
   // 客户
-  router.get('/customer_user', controller.customerUser.index);
-  router.get('/customer_user/get', controller.customerUser.show);
-  router.post('/customer_user/create', controller.customerUser.create);
-  router.post('/customer_user/update', controller.customerUser.update);
-  router.post('/customer_user/delete', controller.customerUser.destroy);
-  router.post('/customer_user/add_integral', controller.customerUser.addIntegral);
-  router.post('/customer_user/add_order_count', controller.customerUser.addOrderCount);
+  router.post('/customer_user', _jwt, controller.customerUser.index);
+  router.post('/customer_user/get', _jwt, controller.customerUser.show);
+  router.post('/customer_user/create', _jwt, controller.customerUser.create);
+  router.post('/customer_user/update', _jwt, controller.customerUser.update);
+  router.post('/customer_user/delete', _jwt, controller.customerUser.destroy);
+  router.post('/customer_user/add_integral', _jwt, controller.customerUser.addIntegral);
+  router.post('/customer_user/add_order_count', _jwt, controller.customerUser.addOrderCount);
 
   // 登录
-  router.post('/adminUser/login', controller.adminUser.login);
-  router.post('/adminUser/logout', controller.adminUser.logout);
-  router.post('/adminUser/modify_pass', controller.adminUser.modifyPass);
-  router.get('/adminUser', controller.adminUser.index);
-  router.get('/adminUser/get', controller.adminUser.show);
-  router.post('/adminUser/create', controller.adminUser.create);
-  router.post('/adminUser/update', controller.adminUser.update);
-  router.post('/adminUser/delete', controller.adminUser.destroy);
+  router.post('/admin_user/login', controller.adminUser.login);
+  router.post('/admin_user/logout', _jwt, controller.adminUser.logout);
+  router.post('/admin_user/modify_pass', _jwt, controller.adminUser.modifyPass);
+  router.post('/admin_user/all', _jwt, controller.adminUser.index);
+  router.post('/admin_user/get', _jwt, controller.adminUser.show);
+  router.post('/admin_user/create', _jwt, controller.adminUser.create);
+  router.post('/admin_user/update', _jwt, controller.adminUser.update);
+  router.post('/admin_user/delete', _jwt, controller.adminUser.destroy);
 
 };

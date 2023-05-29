@@ -41,6 +41,8 @@ module.exports = app => {
     timestamps: true,
     underscored: true,
     freezeTableName: true,
+    createdAt: 'created_at', // 自定义创建时间字段名
+    updatedAt: 'updated_at', // 自定义更新时间字段名
     tableName: 'admin_users',
   });
 
