@@ -193,42 +193,6 @@ class AdminUserController extends Controller {
       ctx.body = genErrorBody('密码修改失败!');
     }
   }
-  // // 激活管理员
-  // async activeUser() {
-  //   const { ctx, app } = this;
-  //   const { id } = ctx.request.body;
-  //   try {
-  //     const userInfo = await ctx.model.AdminUser.findOne({ where: { id } });
-  //     if (!userInfo) {
-  //       ctx.body = genErrorBody('没有找到这个管理员!');
-  //       return;
-  //     }
-  //     await userInfo.update({
-  //       status: 1
-  //     });
-  //     ctx.body = genSuccessBody('激活成功!');
-  //   } catch (error) {
-  //     ctx.body = genErrorBody('激活失败!');
-  //   }
-  // }
-  // // 禁用管理员
-  // async disableUser() {
-  //   const { ctx, app } = this;
-  //   const { id } = ctx.request.body;
-  //   try {
-  //     const userInfo = await ctx.model.AdminUser.findOne({ where: { id } });
-  //     if (!userInfo) {
-  //       ctx.body = genErrorBody('没有找到这个管理员!');
-  //       return;
-  //     }
-  //     await userInfo.update({
-  //       status: 0
-  //     });
-  //     ctx.body = genSuccessBody('禁用成功!');
-  //   } catch (error) {
-  //     ctx.body = genErrorBody('禁用失败!');
-  //   }
-  // }
   async verify() {
     const { ctx, app } = this;
     const { token } = ctx.request.body;
