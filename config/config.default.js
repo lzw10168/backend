@@ -13,6 +13,10 @@ module.exports = appInfo => {
   const config = (exports = {});
 
   // use for cookie sign key, should change to your own and keep security
+  config.wx = {
+    appid: 'wx9b3c2b0e0e0e0e0e',
+    secret: 'wx9b3c2b0e0e0e0e0e'
+  }
   config.keys = appInfo.name + '_1606747991901_2392';
 
   // add your middleware config here
