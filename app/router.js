@@ -39,4 +39,15 @@ module.exports = app => {
   router.post('/customer_user/delete', controller.customerUser.destroy);
   router.post('/customer_user/add_integral', controller.customerUser.addIntegral);
   router.post('/customer_user/add_order_count', controller.customerUser.addOrderCount);
+
+  // 登录
+  router.post('/adminUser/login', controller.adminUser.login);
+  router.post('/adminUser/logout', controller.adminUser.logout);
+  router.post('/adminUser/modify_pass', controller.adminUser.modifyPass);
+  router.get('/adminUser', controller.adminUser.index);
+  router.get('/adminUser/get', controller.adminUser.show);
+  router.post('/adminUser/create', controller.adminUser.create);
+  router.post('/adminUser/update', controller.adminUser.update);
+  router.post('/adminUser/delete', controller.adminUser.destroy);
+
 };

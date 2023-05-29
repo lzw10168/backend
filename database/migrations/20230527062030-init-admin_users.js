@@ -7,11 +7,11 @@ module.exports = {
     await queryInterface.createTable('admin_users', {
       id: { type: INTEGER, primaryKey: true, autoIncrement: true },
       username: STRING(30),
-      password: STRING(30),
+      password: STRING(128),
       super: INTEGER, // 0: 普通管理员 1: 超级管理员
       status: INTEGER, // 0: 禁用 1: 启用
       // 备注
-      remark: STRING(30),
+      remark: STRING(1000),
       created_at: DATE,
       updated_at: DATE,
     });

@@ -14,7 +14,7 @@ module.exports = app => {
       unique: true,
     },
     password: {
-      type: STRING(30),
+      type: STRING(128),
       allowNull: false,
     },
     super: {
@@ -26,7 +26,7 @@ module.exports = app => {
       allowNull: false,
     },
     remark: {
-      type: STRING(30),
+      type: STRING(1000),
       allowNull: true,
     },
     created_at: {
