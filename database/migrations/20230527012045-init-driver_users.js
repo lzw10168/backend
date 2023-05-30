@@ -3,7 +3,7 @@
 module.exports = {
   // 在执行数据库升级时调用的函数，创建 users 表
   up: async (queryInterface, Sequelize) => {
-    const { INTEGER, DATE, STRING } = Sequelize;
+    const { INTEGER, DATE, STRING, DECIMAL } = Sequelize;
     await queryInterface.createTable('driver_users', {
       id: { type: INTEGER, primaryKey: true, autoIncrement: true },
       // 工号
@@ -29,7 +29,7 @@ module.exports = {
       // 驾驶证照片
       driver_license_img: STRING(30),
       // 余额
-      balance: INTEGER,
+      balance: DECIMAL(10, 2),
       // 司机头像
       avatar: STRING(30),
       created_at: DATE,

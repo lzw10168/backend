@@ -3,7 +3,7 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    const { INTEGER, DATE, STRING } = Sequelize;
+    const { INTEGER, DATE, STRING, DECIMAL } = Sequelize;
 
     await queryInterface.createTable('orders', {
       id: { type: INTEGER, primaryKey: true, autoIncrement: true },
@@ -40,7 +40,7 @@ module.exports = {
       // 指派司机姓名
       assign_driver_name: STRING(30),
       // 订单金额
-      order_amount: INTEGER,
+      order_amount: DECIMAL(10, 2),
       // 订单备注
       order_remark: STRING(30),
       // 订单创建时间
