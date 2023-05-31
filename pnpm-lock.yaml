@@ -9,6 +9,7 @@ specifiers:
   egg-ci: ^1.11.0
   egg-cors: ^2.2.3
   egg-jwt: ^3.1.7
+  egg-logger: ^3.3.0
   egg-mock: ^3.21.0
   egg-mysql: ^3.0.0
   egg-scripts: ^2.11.0
@@ -32,6 +33,7 @@ dependencies:
   egg: 2.37.0
   egg-cors: 2.2.3
   egg-jwt: 3.1.7
+  egg-logger: 3.3.0
   egg-mysql: 3.4.0
   egg-scripts: 2.17.0
   egg-sequelize: 6.0.0_mysql2@3.3.3
@@ -3592,6 +3594,18 @@ packages:
       utility: 1.18.0
     transitivePeerDependencies:
       - supports-color
+
+  /egg-logger/3.3.0:
+    resolution: {integrity: sha512-PShjs0p4b6wxlT01Zfu0skqCg0kNILbv7aSRBhgxN5upjuje/2VQXlaQPxmBJYoYstpgBcfm5ShmERbIZMycWg==}
+    engines: {node: '>=14.17.0'}
+    dependencies:
+      chalk: 4.1.2
+      circular-json-for-egg: 1.0.0
+      depd: 2.0.0
+      egg-errors: 2.3.2
+      iconv-lite: 0.6.3
+      utility: 1.18.0
+    dev: false
 
   /egg-logrotator/3.1.0:
     resolution: {integrity: sha512-3kUmUO9UxFiiN4lSvRqzu44UjfTHYD3wqBKsQU7e5PtjSwdQTkbjSp4YvGcbaTlQp0Yp3i/aEc/rBcYH/e/gjw==}

@@ -11,12 +11,6 @@ module.exports = appInfo => {
    * @type {Egg.EggAppConfig}
    **/
   const config = (exports = {});
-
-  config.app = {
-    extend: {
-      defaultData: 'app/extend/defaultData',
-    },
-  };
   // use for cookie sign key, should change to your own and keep security
   config.wx = {
     appid: 'wx9b3c2b0e0e0e0e0e',
@@ -25,7 +19,9 @@ module.exports = appInfo => {
   config.keys = appInfo.name + '_1606747991901_2392';
 
   // add your middleware config here
-  config.middleware = [];
+  config.middleware = [
+    'logger'
+  ];
 
   config.jwt = {
     secret: 'Nick'
