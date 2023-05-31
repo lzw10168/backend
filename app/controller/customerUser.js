@@ -70,33 +70,6 @@ class CustomerUserController extends Controller {
     ctx.body = user;
   }
 
-  async addIntegral() {
-    const { ctx } = this;
-    const { id, integral } = ctx.request.body;
-    const user = await ctx.model.CustomerUser.findByPk(id);
-    if (!user) {
-      ctx.status = 204;
-      ctx.body = { error: 'User not found' };
-      return;
-    }
-    user.integral += integral;
-    await user.save();
-    ctx.body = user;
-  }
-
-  async addOrderCount() {
-    const { ctx } = this;
-    const { id } = ctx.params;
-    const user = await ctx.model.CustomerUser.findByPk(id);
-    if (!user) {
-      ctx.status = 204;
-      ctx.body = { error: 'User not found' };
-      return;
-    }
-    user.orderCount += 1;
-    await user.save();
-    ctx.body = user;
-  }
 }
 
 module.exports = CustomerUserController;

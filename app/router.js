@@ -37,8 +37,6 @@ module.exports = app => {
   router.post('/customer_user/create', _jwt, controller.customerUser.create);
   router.post('/customer_user/update', _jwt, controller.customerUser.update);
   router.post('/customer_user/delete', _jwt, controller.customerUser.destroy);
-  router.post('/customer_user/add_integral', _jwt, controller.customerUser.addIntegral);
-  router.post('/customer_user/add_order_count', _jwt, controller.customerUser.addOrderCount);
 
   // 登录
   router.post('/admin_user/login', controller.adminUser.login);

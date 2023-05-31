@@ -1,35 +1,36 @@
+
 'use strict';
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    const { INTEGER, DATE, STRING } = Sequelize;
-    await queryInterface.createTable('admin_users', {
-      id: {
-        type: INTEGER,
-        primaryKey: true,
-        autoIncrement: true,
-        comment: '主键',
-      },
-      username: {
+    const { INTEGER, DATE, STRING, DECIMAL } = Sequelize;
+    await queryInterface.createTable('driver_bill', {
+      id: { type: INTEGER, primaryKey: true, autoIncrement: true },
+      serial_number: {
         type: STRING(30),
         allowNull: false,
-        comment: '用户名',
+        comment: '流水号',
       },
-      password: {
-        type: STRING(128),
-        allowNull: false,
-        comment: '密码',
-      },
-      super: {
+      finance_type: {
         type: INTEGER,
         allowNull: false,
-        comment: '管理员类型，0: 普通管理员, 1: 超级管理员',
+        comment: '财务类型，0: 支出, 1: 收入',
       },
-      status: {
-        type: INTEGER,
+      serial_amount: {
+        type: DECIMAL(10, 2),
         allowNull: false,
-        comment: '状态，0: 禁用, 1: 启用',
+        comment: '流水金额，2位小数',
+      },
+      driver_name: {
+        type: STRING(30),
+        allowNull: false,
+        comment: '司机姓名',
+      },
+      finish_time: {
+        type: DATE,
+        allowNull: true,
+        comment: '完成时间',
       },
       remark: {
         type: STRING(1000),
@@ -50,12 +51,13 @@ module.exports = {
   },
 
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('admin_users');
+    await queryInterface.dropTable('driver_bill');
     /**
      * Add reverting commands here.
      *
      * Example:
      * await queryInterface.dropTable('users');
-     */
+   **/ 
   }
+
 };

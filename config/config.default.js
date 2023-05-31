@@ -12,6 +12,11 @@ module.exports = appInfo => {
    **/
   const config = (exports = {});
 
+  config.app = {
+    extend: {
+      defaultData: 'app/extend/defaultData',
+    },
+  };
   // use for cookie sign key, should change to your own and keep security
   config.wx = {
     appid: 'wx9b3c2b0e0e0e0e0e',
