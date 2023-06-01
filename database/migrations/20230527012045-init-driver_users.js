@@ -15,6 +15,11 @@ module.exports = {
         type: STRING(30),
         comment: '工号',
       },
+      // 昵称
+      nick_name: {
+        type: STRING(30),
+        comment: '昵称',
+      },
       name: {
         type: STRING(30),
         comment: '姓名',
@@ -25,7 +30,7 @@ module.exports = {
       },
       receive_status: {
         type: INTEGER,
-        comment: '接单状态，0: 空闲 1: 接单中 2: 休息中',
+        comment: '接单状态，0: 空闲 1: 创单,等待中 2: 接单中 3: 休息中',
       },
       account_status: {
         type: INTEGER,
