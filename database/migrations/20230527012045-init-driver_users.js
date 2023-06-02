@@ -20,6 +20,10 @@ module.exports = {
         type: STRING(30),
         comment: '昵称',
       },
+      sex: {
+        type: INTEGER,
+        comment: '性别，0: 男 1: 女',
+      },
       name: {
         type: STRING(30),
         comment: '姓名',

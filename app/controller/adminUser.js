@@ -1,6 +1,6 @@
 // app/controller/admin_user.js
 const moment = require('moment');
-const { genErrorBody, genSuccessBody } = require('../utils');
+const { errorB, successB } = require('../utils');
 const Controller = require('egg').Controller;
 const { Op } = require('sequelize');
 
@@ -19,9 +19,9 @@ class AdminUserController extends Controller {
         limit: Number(pageSize),
         offset: Number(pageNo - 1) * Number(pageSize)
       });
-      ctx.body = genSuccessBody(adminUsers);
+      ctx.body = successB(adminUsers);
     } catch (e) {
-      ctx.body = genErrorBody(e.message);
+      ctx.body = errorB(e.message);
       console.log('e: ', e);
     }
   }
@@ -39,15 +39,15 @@ class AdminUserController extends Controller {
       });
       if (!adminUser) {
         ctx.status = 204;
-        ctx.body = genErrorBody('Admin user not found');
+        ctx.body = errorB('Admin user not found');
         return;
       }
-      ctx.body = genSuccessBody({
+      ctx.body = successB({
         ...adminUser.dataValues,
         permissions: ['admin']
       });
     } catch (e) {
-      ctx.body = genErrorBody(e.message);
+      ctx.body = errorB(e.message);
       console.log('e: ', e);
     }
   }
@@ -62,7 +62,7 @@ class AdminUserController extends Controller {
     });
     if (existingUser) {
       ctx.status = 201;
-      ctx.body = genErrorBody('账户名已被注册，请重新输入');
+      ctx.body = errorB('账户名已被注册，请重新输入');
       return;
     }
 
@@ -75,7 +75,7 @@ class AdminUserController extends Controller {
       status // 禁用
     });
     ctx.status = 201;
-    ctx.body = genSuccessBody(adminUser);
+    ctx.body = successB(adminUser);
   }
 
   async update() {
@@ -86,7 +86,7 @@ class AdminUserController extends Controller {
     const adminUser = await ctx.model.AdminUser.findByPk(id);
     if (!adminUser) {
       ctx.status = 204;
-      ctx.body = genErrorBody('没有找到这个管理员!');
+      ctx.body = errorB('没有找到这个管理员!');
       return;
     }
     await adminUser.update({
@@ -95,7 +95,7 @@ class AdminUserController extends Controller {
       status,
       remark
     });
-    ctx.body = genSuccessBody(adminUser);
+    ctx.body = successB(adminUser);
   }
 
   async destroy() {
@@ -110,10 +110,10 @@ class AdminUserController extends Controller {
             await adminUser.destroy();
           }
         });
-        ctx.body = genSuccessBody('删除成功!');
+        ctx.body = successB('删除成功!');
       }
     } catch (error) {
-      ctx.body = genErrorBody(error);
+      ctx.body = errorB(error);
       console.log('error: ', error);
     }
   }
@@ -127,18 +127,18 @@ class AdminUserController extends Controller {
     const userInfo = await ctx.model.AdminUser.findOne({ where: { username } });
     // 没找到说明没有该用户
     if (!userInfo || !userInfo.id) {
-      ctx.body = genErrorBody('用户不存在!');
+      ctx.body = errorB('用户不存在!');
 
       return;
     }
 
     if (userInfo && userInfo.status == 0) {
-      ctx.body = genErrorBody('用户被禁用, 请联系管理员!');
+      ctx.body = errorB('用户被禁用, 请联系管理员!');
       return;
     }
 
     if (userInfo && password != userInfo.password) {
-      ctx.body = genErrorBody('密码错误!');
+      ctx.body = errorB('密码错误!');
       return;
     }
 
@@ -147,19 +147,22 @@ class AdminUserController extends Controller {
       {
         id: userInfo.id,
         username: userInfo.username,
-        exp: Math.floor(Date.now() / 1000) + 24 * 60 * 60 // token 有效期为 24 小时
+        exp: Math.floor(Date.now() / 1000) + 240 * 60 * 60 // token 有效期为 24 小时
       },
       app.config.jwt.secret
     );
 
-    ctx.body = genSuccessBody({ ...userInfo, token: token });
+    ctx.body = successB({ ...userInfo, token: token });
   }
   async logout() {
     const { ctx, app } = this;
     const token = ctx.request.header.authorization;
     const decode = await app.jwt.verify(token, app.config.jwt.secret);
-    if (!decode) return;
-    ctx.body = genSuccessBody('退出成功');
+    if (!decode) {
+      ctx.body = errorB('token无效');
+      return;
+    };
+    ctx.body = successB('退出成功');
   }
   async modifyPass() {
     const { ctx, app } = this;
@@ -171,7 +174,7 @@ class AdminUserController extends Controller {
       const decode = await app.jwt.verify(token, app.config.jwt.secret);
       if (!decode) return;
       // if (decode.super == 1) {
-      //   ctx.body = genErrorBody('超级管理员不允许修改密码!');
+      //   ctx.body = errorB('超级管理员不允许修改密码!');
       //   return
       // }
       user_id = decode.id;
@@ -180,7 +183,7 @@ class AdminUserController extends Controller {
       });
 
       if (old_pass != userInfo.password) {
-        ctx.body = genErrorBody('原密码错误!');
+        ctx.body = errorB('原密码错误!');
         return;
       }
 
@@ -188,9 +191,9 @@ class AdminUserController extends Controller {
         password: new_pass
       });
 
-      ctx.body = genSuccessBody('密码修改成功!');
+      ctx.body = successB('密码修改成功!');
     } catch (error) {
-      ctx.body = genErrorBody('密码修改失败!');
+      ctx.body = errorB('密码修改失败!');
     }
   }
   async verify() {
@@ -198,7 +201,7 @@ class AdminUserController extends Controller {
     const { token } = ctx.request.body;
     console.log(ctx.state.user);
     const decode = await app.jwt.verify(token, app.config.jwt.secret);
-    ctx.body = genSuccessBody('验证成功!');
+    ctx.body = successB('验证成功!');
   }
 }
 

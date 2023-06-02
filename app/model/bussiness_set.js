@@ -1,12 +1,16 @@
-
 'use strict';
 
-/** @type {import('sequelize-cli').Migration} */
-module.exports = {
-  async up(queryInterface, Sequelize) {
-    const { INTEGER, DATE, STRING, DECIMAL } = Sequelize;
-    await queryInterface.createTable('bussiness_set', {
-      id: { type: INTEGER, primaryKey: true, autoIncrement: true },
+module.exports = (sequelize, DataTypes) => {
+  const { INTEGER, STRING, DATE, DECIMAL } = app.Sequelize;
+
+  const BussinessSet = sequelize.define(
+    'bussiness_set',
+    {
+      id: {
+        type: INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+      },
       open_time: {
         type: STRING,
         allowNull: false,
@@ -26,11 +30,6 @@ module.exports = {
         type: INTEGER,
         allowNull: false,
         comment: '正常起步价',
-      },
-      special_start_km: {
-        type: INTEGER,
-        allowNull: false,
-        comment: '特殊多少公里内',
       },
       special_start_km: {
         type: INTEGER,
@@ -72,17 +71,16 @@ module.exports = {
         allowNull: false,
         comment: '更新时间',
       },
-    });
-  },
+    },
+    {
+      timestamps: true,
+      underscored: true,
+      freezeTableName: true,
+      createdAt: 'created_at',
+      updatedAt: 'updated_at',
+      tableName: 'bussiness_set',
+    }
+  );
 
-  async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('bussiness_set');
-    /**
-     * Add reverting commands here.
-     *
-     * Example:
-     * await queryInterface.dropTable('users');
-   **/ 
-  }
-
+  return BussinessSet;
 };

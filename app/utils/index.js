@@ -1,4 +1,4 @@
-function genErrorBody(msg) {
+function errorB(msg) {
 
   return {
     code: 0,
@@ -7,7 +7,7 @@ function genErrorBody(msg) {
   };
 }
 
-function genSuccessBody(data) {
+function successB(data) {
   return {
     code: 1,
     msg: '操作成功',
@@ -17,6 +17,6 @@ function genSuccessBody(data) {
 
 
 module.exports = {
-  genErrorBody,
-  genSuccessBody,
+  errorB,
+  successB,
 };

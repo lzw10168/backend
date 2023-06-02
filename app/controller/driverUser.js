@@ -3,59 +3,88 @@
 // 其中，index、new、create和show对应HTTP GET请求，edit、update和destroy对应HTTP PUT、PATCH和DELETE请求。
 const Controller = require('egg').Controller;
 const uuid = require('uuid');
+const { successB, errorB } = require('../utils');
 class DriverUserController extends Controller {
   async index() {
     const { ctx } = this;
+    try {
     const driverUser = await ctx.model.DriverUser.findAll();
-    ctx.body = driverUser;
+    ctx.body = successB(driverUser);
+    } catch (error) {
+      ctx.body = successB(error);
+    }
+    
   }
 
   async show() {
     const { ctx } = this;
-    const driverUser = await ctx.model.DriverUser.findByPk(ctx.params.id);
-    if (!driverUser) {
-      ctx.status = 204;
-      ctx.body = { error: 'Driver user not found' };
-      return;
+    try {
+      const driverUser = await ctx.model.DriverUser.findByPk(ctx.params.id);
+      if (!driverUser) {
+        ctx.status = 204;
+        ctx.body = { error: 'Driver user not found' };
+        return;
+      }
+      ctx.body = successB(driverUser);
+    } catch (error) {
+      ctx.body = errorB(error);
     }
-    ctx.body = driverUser;
+
   }
 
   async create() {
     const { ctx } = this;
-    // 给默认值
-    const body = {
-      // ID_5位随机数
-      job_number: `ID_${uuid().slice(0, 5)}`,
-      ...ctx.request.body
+    try {
+      // 给默认值
+      const body = {
+        ...ctx.request.body,
+        // ID_5位大写英文
+        job_number: `ID_${uuid.v4().toUpperCase().slice(0, 5)}`,
+        receive_status: 3, //休息中
+        account_status: 1, //禁用
+      }
+      const driverUser = await ctx.model.DriverUser.create(body);
+      ctx.status = 201;
+      ctx.body = successB(driverUser);
+    } catch (error) {
+      ctx.body = errorB(error);
     }
-    const driverUser = await ctx.model.DriverUser.create(body);
-    ctx.status = 201;
-    ctx.body = driverUser;
+
   }
 
   async update() {
     const { ctx } = this;
-    const driverUser = await ctx.model.DriverUser.findByPk(ctx.params.id);
+    try {
+      const driverUser = await ctx.model.DriverUser.findByPk(ctx.params.id);
     if (!driverUser) {
       ctx.status = 204;
-      ctx.body = { error: 'Driver user not found' };
+      ctx.body = errorB('Driver user not found');
       return;
     }
     await driverUser.update(ctx.request.body);
-    ctx.body = driverUser;
+    ctx.body = successB(driverUser);
+    } catch (error) {
+      ctx.body = errorB(error);
+      
+    }
   }
 
   async destroy() {
     const { ctx } = this;
-    const driverUser = await ctx.model.DriverUser.findByPk(ctx.params.id);
+    try {
+      const driverUser = await ctx.model.DriverUser.findByPk(ctx.params.id);
     if (!driverUser) {
       ctx.status = 204;
-      ctx.body = { error: 'Driver user not found' };
+      ctx.body = errorB('Driver user not found');
       return;
     }
     await driverUser.destroy();
     ctx.status = 204;
+    ctx.body = successB('删除成功')
+    } catch (error) {
+      ctx.body = errorB(error);
+      
+    }
   }
 }
 

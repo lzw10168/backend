@@ -1,7 +1,7 @@
 // app/controller/order.js
 const Controller = require('egg').Controller;
 const uuid = require('uuid');
-const { genSuccessBody } = require('../utils');
+const { successB } = require('../utils');
 class wxController extends Controller {
   async getUserInfo() {
     const { ctx } = this;
@@ -13,9 +13,9 @@ class wxController extends Controller {
         dataType: 'json',
       });
       ctx.body = res.data;
-      ctx.body = genSuccessBody(orders);
+      ctx.body = successB(orders);
     } catch (error) {
-      ctx.body = genErrorBody(error);
+      ctx.body = errorB(error);
     }
   }
 
